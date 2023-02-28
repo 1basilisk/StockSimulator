@@ -20,6 +20,11 @@ class SearchPage extends StatefulWidget {
 }
 
 class _SearchPageState extends State<SearchPage> {
+   Color blueBg = Color.fromRGBO(69, 7, 132, 1);
+  Color roseLight = Color.fromRGBO(253, 176, 150, 1);
+  Color roseDark = Color.fromRGBO(229, 149, 142, 1);
+  Color goldAcc = Color.fromRGBO(255, 185, 2, 1);
+  final double _iconSize = 30;
   String sym = "fb";
   bool click = false;
   Future<Stock> search(String sym) {
@@ -31,36 +36,40 @@ class _SearchPageState extends State<SearchPage> {
   }
 
   @override
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
-      bottomNavigationBar: CurvedNavigationBar(
-          backgroundColor: Colors.white,
-          color: Colors.deepPurple,
+      backgroundColor: blueBg,
+      resizeToAvoidBottomInset: false,
+        bottomNavigationBar: CurvedNavigationBar(
+          backgroundColor: blueBg,
+          color: blueBg,
           animationDuration: const Duration(milliseconds: 300),
-          items: const <Widget>[
+          items: <Widget>[
             Icon(
               Icons.home,
               color: Colors.white,
-              size: 50,
+              size: _iconSize,
             ),
             Icon(
               Icons.search,
               color: Colors.white,
-              size: 50,
+              size: _iconSize,
             ),
             Icon(
               Icons.history,
               color: Colors.white,
-              size: 50,
+              size: _iconSize,
             ),
             Icon(
               Icons.person,
               color: Colors.white,
-              size: 50,
+              size: _iconSize,
             ),
           ],
           onTap: (index) {
             print(index);
+
             if (index == 0) {
               Navigator.of(context)
                   .push(MaterialPageRoute(builder: (context) => HomePage()));
@@ -76,41 +85,53 @@ class _SearchPageState extends State<SearchPage> {
             }
           }),
       appBar: AppBar(
-        title: const Text('Search Stock on one click!'),
-        actions: [
-          IconButton(
-            onPressed: () {},
-            icon: Icon(Icons.star), //star==app logo
+          backgroundColor: roseLight,
+          title: const Text('Search Stock'),
+          actions: [
+            IconButton(
+            onPressed: () {
+              Navigator.of(context).push(
+                  MaterialPageRoute(builder: (context) => YourAccountPage()));
+            },
+            icon: Icon(
+              Icons.account_circle,
+              size: 40,
+            ), //star==app logo
           ),
-        ],
-      ),
+          ],
+        ),
       body: Container(
         child: Center(
-          child: Column(
-            children: <Widget>[
-              SizedBox(
-                width: 500,
-                child: TextFormField(
-                  decoration: const InputDecoration(
-                      suffixIcon: Padding(
-                        padding: EdgeInsets.all(0.0),
-                        child: Icon(
-                          Icons.search,
-                          color: Colors.grey,
-                        ), // icon is 48px widget.
-                      ),
-                      labelText: "Enter stock name here...",
-                      fillColor: Colors.white,
-                      focusedBorder: OutlineInputBorder(
-                          borderSide:
-                              BorderSide(color: Colors.blue, width: 2.0))),
+            child: Padding(
+              padding: EdgeInsets.all(20),
+              child: Column(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: <Widget>[
+                SizedBox(
+                  width: 500,
+                  child: TextFormField(
                   onChanged: (value) {
                     setState(() {
                       sym = value;
                     });
                   },
+
+                    decoration: InputDecoration(
+                        suffixIcon: Padding(
+                          padding: EdgeInsets.all(0.0),
+                          child: Icon(
+                            Icons.search,
+                            color: Colors.grey,
+                          ), // icon is 48px widget.
+                        ),
+                        labelText: "Enter stock name here...",
+                        labelStyle: TextStyle(color: goldAcc),
+                        fillColor: Colors.white,
+                        focusedBorder: OutlineInputBorder(
+                            borderSide:
+                                BorderSide(color: Colors.blue, width: 2.0))),
+                  ),
                 ),
-              ),
               // SizedBox(
               //   child: ElevatedButton(
               //     onPressed: () {
@@ -149,6 +170,7 @@ class _SearchPageState extends State<SearchPage> {
           ),
         ),
       ),
+    )
     );
   }
 }

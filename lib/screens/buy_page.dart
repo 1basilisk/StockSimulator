@@ -1,10 +1,14 @@
 // ignore_for_file: prefer_const_constructors, avoid_print, avoid_unnecessary_containers, unnecessary_import, implementation_imports, unused_import
 
+import 'dart:js';
+
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/src/widgets/placeholder.dart';
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
+import 'package:stockez_app/screens/portfolio_page.dart';
 import 'package:stockez_app/services/api_service.dart';
 import 'package:stockez_app/services/api_service2.dart';
 
@@ -24,6 +28,12 @@ class BuyPage extends StatefulWidget {
 }
 
 class _BuyPageState extends State<BuyPage> {
+  Color blueBg = Color.fromRGBO(69, 7, 132, 1);
+  Color roseLight = Color.fromRGBO(253, 176, 150, 1);
+  Color roseDark = Color.fromRGBO(229, 149, 142, 1);
+  Color goldAcc = Color.fromRGBO(255, 185, 2, 1);
+  final double _iconSize = 30;
+
   final num_controller = TextEditingController();
   final sym_controller = TextEditingController();
 
@@ -46,41 +56,41 @@ class _BuyPageState extends State<BuyPage> {
   Widget build(BuildContext context) {
     String sym = "";
     int num = 0;
-    // final num_controller = TextEditingController();
-    // final sym_controller = TextEditingController();
+    
     sym_controller.text = "";
     num_controller.text = "";
 
     return Scaffold(
+       backgroundColor: blueBg,
       bottomNavigationBar: CurvedNavigationBar(
-          backgroundColor: Colors.white,
-          color: Colors.deepPurple,
+          backgroundColor: blueBg,
+          color: blueBg,
           animationDuration: const Duration(milliseconds: 300),
-          // ignore: prefer_const_literals_to_create_immutables
           items: <Widget>[
             Icon(
               Icons.home,
               color: Colors.white,
-              size: 50,
+              size: _iconSize,
             ),
             Icon(
               Icons.search,
               color: Colors.white,
-              size: 50,
+              size: _iconSize,
             ),
             Icon(
               Icons.history,
               color: Colors.white,
-              size: 50,
+              size: _iconSize,
             ),
             Icon(
               Icons.person,
               color: Colors.white,
-              size: 50,
+              size: _iconSize,
             ),
           ],
-          onTap: (index) {
+           onTap: (index) {
             print(index);
+
             if (index == 0) {
               Navigator.of(context)
                   .push(MaterialPageRoute(builder: (context) => HomePage()));
@@ -92,59 +102,80 @@ class _BuyPageState extends State<BuyPage> {
                   .push(MaterialPageRoute(builder: (context) => RecordsPage()));
             } else {
               Navigator.of(context).push(
-                  MaterialPageRoute(builder: (context) => YourAccountPage()));
+                  MaterialPageRoute(builder: (context) => PortfolioPage()));
             }
           }),
+      
       appBar: AppBar(
+        backgroundColor: roseDark,
         title: const Text('Buy Stocks'),
         actions: [
           IconButton(
-            onPressed: () {},
-            icon: Icon(Icons.star), //star==app logo
+            onPressed: () {
+              Navigator.of(context).push(
+                  MaterialPageRoute(builder: (context) => YourAccountPage()));
+            },
+            icon: Icon(
+              Icons.account_circle,
+              size: 40,
+            ), //star==app logo
           ),
         ],
       ),
-      body: Container(
+      body: SingleChildScrollView(
+        child: Container(
         child: Center(
+          child : Padding(
+            padding: EdgeInsets.fromLTRB(20, 20, 20, 20),
           child: Column(
             children: <Widget>[
+              SizedBox(height: 20,),
               Container(
                 child: TextFormField(
                   controller: sym_controller,
-                  decoration: const InputDecoration(
+                  decoration: InputDecoration(
                       labelText: "Stock Symbol",
+                      labelStyle: TextStyle(color: roseDark),
                       fillColor: Colors.white,
                       focusedBorder: OutlineInputBorder(
                           borderSide:
-                              BorderSide(color: Colors.blue, width: 2.0))),
+                              BorderSide(color: goldAcc, width: 2.0))),
                 ),
               ),
+
+              SizedBox(height: 40,),
               Container(
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: <Widget>[
                     IconButton(
-                      iconSize: 30,
-                      icon: const Icon(Icons.remove),
+                      iconSize: 50,
+                      icon: Icon(Icons.remove, color: roseLight,),
                       onPressed: () {
                         num_controller.text = decrementCounter().toString();
                       },
                     ),
+
                     SizedBox(
-                      width: 300,
+                      width: 200,
                       child: TextFormField(
                         controller: num_controller,
-                        decoration: const InputDecoration(
-                            labelText: "Number of stocks",
-                            fillColor: Colors.white,
-                            focusedBorder: OutlineInputBorder(
-                                borderSide: BorderSide(
-                                    color: Colors.blue, width: 2.0))),
-                      ),
+                        keyboardType: TextInputType.numberWithOptions(decimal: true),
+                        inputFormatters: [
+                          FilteringTextInputFormatter.allow(RegExp(r'^\d*\.?\d*')),
+                        ],
+                        decoration: InputDecoration(
+                          labelText: "Number of stocks",
+                          labelStyle: TextStyle(color: roseDark),
+                          fillColor: Colors.white,
+                          focusedBorder: OutlineInputBorder(
+                              borderSide:
+                                  BorderSide(color: goldAcc, width: 2.0))),
+                    ),
                     ),
                     IconButton(
-                      iconSize: 30,
-                      icon: const Icon(Icons.add),
+                     iconSize: 50,
+                      icon: Icon(Icons.add, color: roseLight,),
                       onPressed: () {
                         num_controller.text = incrementCounter().toString();
                       },
@@ -152,6 +183,7 @@ class _BuyPageState extends State<BuyPage> {
                   ],
                 ),
               ),
+               SizedBox(height: 40,),
               Container(
                 child: ElevatedButton(
                   onPressed: () {
@@ -164,22 +196,28 @@ class _BuyPageState extends State<BuyPage> {
                   },
                   style: ElevatedButton.styleFrom(
                     backgroundColor: Colors.green,
+                    padding: EdgeInsets.all(20),
                   ),
                   child: const Text(
                     "BUY",
                     style: TextStyle(
                       color: Colors.white,
-                      fontSize: 30,
+                      fontSize: 20,
                     ),
                   ),
                 ),
               ),
             ],
           ),
+          ),
         ),
       ),
+      
+      ),
+      
     );
   }
+
 
   void buy(String sym, int num) async {
     //fetch user data
@@ -213,7 +251,7 @@ class _BuyPageState extends State<BuyPage> {
     // });
     // ignore: use_build_context_synchronously
 
-    Navigator.of(context)
+    Navigator.of(context as BuildContext )
         .push(MaterialPageRoute(builder: (context) => RecordsPage()));
 
     // }

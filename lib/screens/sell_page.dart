@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/src/widgets/placeholder.dart';
 import 'package:dropdown_formfield/dropdown_formfield.dart';
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'package:stockez_app/keys/variables.dart';
+import 'package:stockez_app/screens/portfolio_page.dart';
 import 'package:stockez_app/services/firebaseFunctions.dart';
 
 import '../services/api_service2.dart';
@@ -57,6 +59,11 @@ class _SellPageState extends State<SellPage> {
       });
     }
   }
+  Color blueBg = Color.fromRGBO(69, 7, 132, 1);
+  Color roseLight = Color.fromRGBO(253, 176, 150, 1);
+  Color roseDark = Color.fromRGBO(229, 149, 142, 1);
+  Color goldAcc = Color.fromRGBO(255, 185, 2, 1);
+  final double _iconSize = 30;
 
   @override
   Widget build(BuildContext context) {
@@ -77,30 +84,31 @@ class _SellPageState extends State<SellPage> {
     num_controller.text = "";
     String sym = "";
     return Scaffold(
+      backgroundColor: blueBg,
       bottomNavigationBar: CurvedNavigationBar(
-          backgroundColor: Colors.white,
-          color: Colors.deepPurple,
+          backgroundColor: blueBg,
+          color: blueBg,
           animationDuration: const Duration(milliseconds: 300),
-          items: const <Widget>[
+          items: <Widget>[
             Icon(
               Icons.home,
               color: Colors.white,
-              size: 50,
+              size: _iconSize,
             ),
             Icon(
               Icons.search,
               color: Colors.white,
-              size: 50,
+              size: _iconSize,
             ),
             Icon(
               Icons.history,
               color: Colors.white,
-              size: 50,
+              size: _iconSize,
             ),
             Icon(
               Icons.person,
               color: Colors.white,
-              size: 50,
+              size: _iconSize,
             ),
           ],
           onTap: (index) {
@@ -117,15 +125,22 @@ class _SellPageState extends State<SellPage> {
                   .push(MaterialPageRoute(builder: (context) => RecordsPage()));
             } else {
               Navigator.of(context).push(
-                  MaterialPageRoute(builder: (context) => YourAccountPage()));
+                  MaterialPageRoute(builder: (context) => PortfolioPage()));
             }
           }),
       appBar: AppBar(
+        backgroundColor: roseDark,
         title: const Text('Sell Stocks'),
         actions: [
           IconButton(
-            onPressed: () {},
-            icon: Icon(Icons.star), //star==app logo
+            onPressed: () {
+              Navigator.of(context).push(
+                  MaterialPageRoute(builder: (context) => YourAccountPage()));
+            },
+            icon: Icon(
+              Icons.account_circle,
+              size: 40,
+            ), //star==app logo
           ),
         ],
       ),
@@ -163,26 +178,31 @@ class _SellPageState extends State<SellPage> {
                     children: <Widget>[
                       IconButton(
                         iconSize: 50,
-                        icon: const Icon(Icons.remove),
+                        icon: Icon(Icons.remove, color: roseLight,),
                         onPressed: () {
                           num_controller.text = decrementCounter().toString();
                         },
                       ),
                       SizedBox(
-                        width: 300,
-                        child: TextFormField(
-                          controller: num_controller,
-                          decoration: const InputDecoration(
-                              labelText: "Number of stocks",
-                              fillColor: Colors.white,
-                              focusedBorder: OutlineInputBorder(
-                                  borderSide: BorderSide(
-                                      color: Colors.blue, width: 2.0))),
-                        ),
-                      ),
+                      width: 200,
+                      child: TextFormField(
+                      controller: num_controller,
+                        keyboardType: TextInputType.numberWithOptions(decimal: true),
+                        inputFormatters: [
+                          FilteringTextInputFormatter.allow(RegExp(r'^\d*\.?\d*')),
+                        ],
+                      decoration: InputDecoration(
+                          labelText: "Number of stocks",
+                          labelStyle: TextStyle(color: roseDark),
+                          fillColor: Colors.white,
+                          focusedBorder: OutlineInputBorder(
+                              borderSide:
+                                  BorderSide(color: goldAcc, width: 2.0))),
+                    ),
+                    ),
                       IconButton(
                         iconSize: 50,
-                        icon: const Icon(Icons.add),
+                        icon: Icon(Icons.add, color: roseLight,),
                         onPressed: () {
                           num_controller.text = incrementCounter().toString();
                         },
@@ -190,16 +210,31 @@ class _SellPageState extends State<SellPage> {
                     ],
                   ),
                 ),
+                SizedBox(height: 40,),
+
                 Container(
                   child: ElevatedButton(
-                    child: Text('SELL'),
                     onPressed: () {
                       num = int.tryParse(num_controller.text) ?? 0;
                       sell(stock, num);
                       _saveForm();
                     },
+                    style: ElevatedButton.styleFrom(
+                    backgroundColor: Color.fromARGB(255, 235, 77, 66),
+                    padding: EdgeInsets.all(20),
+                  ),
+                    
+                    child: const Text(
+                      style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 20,
+                    ),
+                      'SELL'
+                    ),
+                    
                   ),
                 ),
+                
                 Container(
                   child: Text(" $_myActivityResult sold!"),
                 )

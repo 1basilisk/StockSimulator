@@ -4,6 +4,7 @@ import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/src/widgets/placeholder.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:stockez_app/keys/variables.dart';
 
 import 'buy_page.dart';
@@ -21,6 +22,10 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+  Color blueBg = Color.fromRGBO(69, 7, 132, 1);
+  Color roseLight = Color.fromRGBO(253, 176, 150, 1);
+  Color roseDark = Color.fromRGBO(229, 149, 142, 1);
+  Color goldAcc = Color.fromRGBO(255, 185, 2, 1);
   final items = [
     'Item 1',
     'Item 2',
@@ -32,33 +37,35 @@ class _HomePageState extends State<HomePage> {
     'Item 8',
     'Item 9',
   ];
+  final double _iconSize = 30;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: blueBg,
       bottomNavigationBar: CurvedNavigationBar(
-          backgroundColor: Colors.white,
-          color: Colors.deepPurple,
+          backgroundColor: blueBg,
+          color: blueBg,
           animationDuration: const Duration(milliseconds: 300),
           items: <Widget>[
             Icon(
               Icons.home,
               color: Colors.white,
-              size: 50,
+              size: _iconSize,
             ),
             Icon(
               Icons.search,
               color: Colors.white,
-              size: 50,
+              size: _iconSize,
             ),
             Icon(
               Icons.history,
               color: Colors.white,
-              size: 50,
+              size: _iconSize,
             ),
             Icon(
               Icons.person,
               color: Colors.white,
-              size: 50,
+              size: _iconSize,
             ),
           ],
           onTap: (index) {
@@ -78,21 +85,38 @@ class _HomePageState extends State<HomePage> {
                   MaterialPageRoute(builder: (context) => PortfolioPage()));
             }
           }),
-      appBar: AppBar(
-        centerTitle: true,
-        title: const Text('Home'),
-        leading: IconButton(
-          onPressed: () {},
-          icon: Icon(Icons.star),
-        ),
+
+          
+       appBar: AppBar(
+        backgroundColor: blueBg,
+        // centerTitle: true,
+        title: const Text('StockEz'),
+        // leading: IconButton(
+        //   onPressed: () {},
+        //   icon: Icon(Icons.star),
+        // ),
         actions: [
           IconButton(
             onPressed: () {
               Navigator.of(context).push(
                   MaterialPageRoute(builder: (context) => YourAccountPage()));
             },
-            icon: Icon(Icons.account_circle), //star==app logo
+            icon: Icon(
+              Icons.account_circle,
+              size: 40,
+            ), //star==app logo
           ),
+
+          // IconButton(
+          //   onPressed: () {
+          //     Navigator.of(context).push(
+          //         MaterialPageRoute(builder: (context) => YourAccountPage()));
+          //   },
+          //   icon: Image.asset('assets/page-1/images/mask-group-KYF.png',
+          //   fit: BoxFit.contain
+          //   ),
+          //    //star==app logo
+          // ),
         ],
       ),
       body: Container(
@@ -103,20 +127,49 @@ class _HomePageState extends State<HomePage> {
               Container(
                 child: Column(
                   children: <Widget>[
-                    Text("Balance"),
-                    Row(
-                      children: <Widget>[
-                        Text(UInfo.u_balance.toString()),
-                        SizedBox(
-                          width: 200,
-                          child: TextFormField(
-                            decoration: const InputDecoration(
-                              labelText: " ",
-                              fillColor: Colors.white,
+                    Padding(
+                      padding: EdgeInsets.fromLTRB(0, 15, 0, 5),
+                      child: Text(
+                        "Balance",
+                        textAlign: TextAlign.center,
+                        style: GoogleFonts.montserrat(
+                          fontSize: 30,
+                          fontWeight: FontWeight.w600,
+                          height: 1.6356666088,
+                          letterSpacing: -0.3000000119,
+                          color: goldAcc,
+                        ),
+                      ),
+                    ),
+                   Padding(
+                      padding: EdgeInsets.fromLTRB(0, 0, 0, 5),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: <Widget>[
+                          Text(
+                            "\$",
+                            textAlign: TextAlign.center,
+                            style: GoogleFonts.montserrat(
+                              fontSize: 45,
+                              fontWeight: FontWeight.w700,
+                              height: 1.6356666153,
+                              letterSpacing: -0.3000000119,
+                              color: goldAcc,
                             ),
                           ),
-                        ),
-                      ],
+                          Text(
+                            UInfo.u_balance.toString(),
+                            textAlign: TextAlign.center,
+                            style: GoogleFonts.montserrat(
+                              fontSize: 37,
+                              fontWeight: FontWeight.w700,
+                              height: 1.6356666153,
+                              letterSpacing: -0.3000000119,
+                              color: goldAcc,
+                            ),
+                          ),
+                        ],
+                      ),
                     ),
                   ],
                 ),
@@ -128,35 +181,119 @@ class _HomePageState extends State<HomePage> {
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: <Widget>[
-                    ElevatedButton(
-                      onPressed: () {
-                        Navigator.of(context)
-                  .push(MaterialPageRoute(builder: (context) => BuyPage()));
-                      },
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: Colors.green,
-                      ),
-                      child: const Text(
-                        "Buy",
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 30,
+                    //new code here
+                    // ElevatedButton(
+                    //   onPressed: () {
+                    //     Navigator.of(context).push(
+                    //         MaterialPageRoute(builder: (context) => BuyPage()));
+                    //   },
+                    //   style: ElevatedButton.styleFrom(
+                    //     backgroundColor: Colors.green,
+                    //   ),
+                    //   child: const Text(
+                    //     "Buy",
+                    //     style: TextStyle(
+                    //       color: Colors.white,
+                    //       fontSize: 30,
+                    //     ),
+                    //   ),
+                    // ),
+
+                    //Prototype
+
+                    Container(
+                      // buybuttonvzc (1:251)
+                      margin: EdgeInsets.fromLTRB(0, 0, 10, 0),
+                      child: TextButton(
+                        onPressed: () {
+                          Navigator.of(context).push(MaterialPageRoute(
+                              builder: (context) => const BuyPage()));
+                        },
+                        style: TextButton.styleFrom(
+                          padding: EdgeInsets.zero,
+                        ),
+                        child: Container(
+                          width: 120,
+                          height: 50,
+                          decoration: BoxDecoration(
+                            color: Color(0xffffffff),
+                            borderRadius: BorderRadius.circular(30),
+                            boxShadow: [
+                              BoxShadow(
+                                color: Color(0x93000000),
+                                offset: Offset(0, 4),
+                                blurRadius: 2,
+                              ),
+                            ],
+                          ),
+                          child: Center(
+                            child: Center(
+                              child: Text(
+                                'Buy',
+                                textAlign: TextAlign.center,
+                                style: GoogleFonts.montserrat(
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.w600,
+                                  height: 1.6356666088,
+                                  letterSpacing: -0.3000000119,
+                                  color: Color(0xff000000),
+                                ),
+                              ),
+                            ),
+                          ),
                         ),
                       ),
                     ),
-                    ElevatedButton(
+
+                    //-------------------
+                    // ElevatedButton(
+                    //   onPressed: () {
+                    //     Navigator.of(context).push(MaterialPageRoute(
+                    //         builder: (context) => SellPage()));
+                    //   },
+                    //   style: ElevatedButton.styleFrom(
+                    //     backgroundColor: Colors.red,
+                    //   ),
+                    //   child: const Text(
+                    //     "Sell",
+                    //     style: TextStyle(
+                    //       color: Colors.white,
+                    //       fontSize: 30,
+                    //     ),
+                    //   ),
+                    // ),
+
+                    //Sell
+                    TextButton(
+                      // sellbuttonsoN (1:252)
                       onPressed: () {
-                        Navigator.of(context)
-                  .push(MaterialPageRoute(builder: (context) => SellPage()));
+                        Navigator.of(context).push(MaterialPageRoute(
+                            builder: (context) => const SellPage()));
                       },
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: Colors.red,
+                      style: TextButton.styleFrom(
+                        padding: EdgeInsets.zero,
                       ),
-                      child: const Text(
-                        "Sell",
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 30,
+                      child: Container(
+                        width: 120,
+                        height: 50,
+                        decoration: BoxDecoration(
+                          border: Border.all(color: Color(0xffffffff)),
+                          borderRadius: BorderRadius.circular(30),
+                        ),
+                        child: Center(
+                          child: Center(
+                            child: Text(
+                              'Sell',
+                              textAlign: TextAlign.center,
+                              style: GoogleFonts.montserrat(
+                                fontSize: 16,
+                                fontWeight: FontWeight.w600,
+                                height: 1.6356666088,
+                                letterSpacing: -0.3000000119,
+                                color: Color(0xffffffff),
+                              ),
+                            ),
+                          ),
                         ),
                       ),
                     ),
@@ -167,29 +304,70 @@ class _HomePageState extends State<HomePage> {
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: <Widget>[
-                    Align(
-                      alignment: Alignment.topLeft,
-                      child: Text("Your Watchlist"),
-                    ),
-                    SizedBox(
-                      width: double.infinity,
-                      height: 200,
-                      child: ListView.builder(
-                        itemCount: items.length,
-                        itemBuilder: (context, index) {
-                          return ListTile(
-                            shape: RoundedRectangleBorder(
-                              
-                              borderRadius: BorderRadius.circular(20),
+                    Padding(
+                      padding: EdgeInsets.fromLTRB(18, 30, 18, 0),
+                      child: Column(
+                        children: [
+                          Align(
+                            alignment: Alignment.topCenter,
+                            child: Text(
+                              "Your Watchlist",
+                              style: GoogleFonts.montserrat(
+                                fontSize: 20,
+                                fontWeight: FontWeight.bold,
+                                height: 1.6356666088,
+                                letterSpacing: -0.3000000119,
+                                color: goldAcc,
+                              ),
                             ),
-                            
-                            title: Text(
-                              'Item ${items[index]}',
+                          ),
+                          SizedBox(
+                            width: double.infinity,
+                            height: 9,
+                          ),
+                          SizedBox(
+                            width: double.infinity,
+                            height: 200,
+                            child: ListView.builder(
+                              itemCount: items.length,
+                              itemBuilder: (context, index) {
+                                return ListTile(
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(20),
+                                  ),
+                                  title: Text(
+                                    'Item ${items[index]}',
+                                    style: GoogleFonts.montserrat(
+                                      fontSize: 18,
+                                      fontWeight: FontWeight.w600,
+                                      height: 1.6356666088,
+                                      letterSpacing: -0.3000000119,
+                                      color: goldAcc,
+                                    ),
+                                  ),
+                                  subtitle: Text(
+                                    'Item description',
+                                    style: GoogleFonts.montserrat(
+                                      fontSize: 16,
+                                      fontWeight: FontWeight.normal,
+                                      height: 1.6356666088,
+                                      letterSpacing: -0.3000000119,
+                                      color: roseLight,
+                                    ),
+                                  ),
+                                  trailing: IconButton(
+                                    icon: new Icon(Icons.more_vert),
+                                    onPressed: () {
+                                      //Additional Details
+                                      print("Additonal");
+                                    },
+                                    color: goldAcc,
+                                  ),
+                                );
+                              },
                             ),
-                            subtitle: Text('Item description'),
-                            trailing: Icon(Icons.more_vert),
-                          );
-                        },
+                          ),
+                        ],
                       ),
                     ),
                   ],
