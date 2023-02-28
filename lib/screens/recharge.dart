@@ -22,10 +22,25 @@ class _RechargePageState extends State<RechargePage> {
   Color roseLight = const Color.fromRGBO(253, 176, 150, 1);
   Color roseDark = const Color.fromRGBO(229, 149, 142, 1);
   Color goldAcc = const Color.fromRGBO(255, 185, 2, 1);
+  final amtC = TextEditingController();
+
+  int decrementCounter() {
+    int quan = int.tryParse(amtC.text) ?? 0;
+    quan--;
+    if (quan < 0) {
+      quan = 0;
+    }
+    return quan;
+  }
+
+  int incrementCounter() {
+    int quan = int.tryParse(amtC.text) ?? 0;
+    quan++;
+    return quan;
+  }
+
   @override
   Widget build(BuildContext context) {
-    final amtC = TextEditingController();
-    amtC.text = "";
     return Scaffold(
       backgroundColor: blueBg,
       bottomNavigationBar: CurvedNavigationBar(
@@ -57,17 +72,17 @@ class _RechargePageState extends State<RechargePage> {
           onTap: (index) {
             print(index);
             if (index == 0) {
-              Navigator.of(context)
-                  .push(MaterialPageRoute(builder: (context) => const HomePage()));
-            } else if (index == 1) {
-              Navigator.of(context)
-                  .push(MaterialPageRoute(builder: (context) => const SearchPage()));
-            } else if (index == 2) {
-              Navigator.of(context)
-                  .push(MaterialPageRoute(builder: (context) => const RecordsPage()));
-            } else {
               Navigator.of(context).push(
-                  MaterialPageRoute(builder: (context) => const YourAccountPage()));
+                  MaterialPageRoute(builder: (context) => const HomePage()));
+            } else if (index == 1) {
+              Navigator.of(context).push(
+                  MaterialPageRoute(builder: (context) => const SearchPage()));
+            } else if (index == 2) {
+              Navigator.of(context).push(
+                  MaterialPageRoute(builder: (context) => const RecordsPage()));
+            } else {
+              Navigator.of(context).push(MaterialPageRoute(
+                  builder: (context) => const YourAccountPage()));
             }
           }),
       appBar: AppBar(
@@ -76,8 +91,8 @@ class _RechargePageState extends State<RechargePage> {
         actions: [
           IconButton(
             onPressed: () {
-              Navigator.of(context).push(
-                  MaterialPageRoute(builder: (context) => const YourAccountPage()));
+              Navigator.of(context).push(MaterialPageRoute(
+                  builder: (context) => const YourAccountPage()));
             },
             icon: const Icon(
               Icons.account_circle,
@@ -101,14 +116,16 @@ class _RechargePageState extends State<RechargePage> {
                         Icons.remove,
                         color: Color.fromRGBO(229, 149, 142, 1),
                       ),
-                      onPressed: () {},
+                      onPressed: () {
+                        amtC.text = decrementCounter().toString();
+                      },
                     ),
                     SizedBox(
                       width: 200,
                       child: TextFormField(
                         controller: amtC,
-                        keyboardType:
-                            const TextInputType.numberWithOptions(decimal: true),
+                        keyboardType: const TextInputType.numberWithOptions(
+                            decimal: true),
                         inputFormatters: [
                           FilteringTextInputFormatter.allow(
                               RegExp(r'^\d*\.?\d*')),
@@ -129,7 +146,9 @@ class _RechargePageState extends State<RechargePage> {
                         Icons.add,
                         color: Color.fromRGBO(229, 149, 142, 1),
                       ),
-                      onPressed: () {},
+                      onPressed: () {
+                        amtC.text = incrementCounter().toString();
+                      },
                     ),
                   ],
                 ),
@@ -140,7 +159,7 @@ class _RechargePageState extends State<RechargePage> {
                   onPressed: () {
                     double val = double.tryParse(amtC.text) ?? 0;
                     UInfo.u_balance = UInfo.u_balance! + val;
-                    amtC.text="DONE";
+                    amtC.text = "DONE";
                   },
                   style: ElevatedButton.styleFrom(
                     backgroundColor: roseDark,
