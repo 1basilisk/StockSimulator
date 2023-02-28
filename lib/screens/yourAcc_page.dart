@@ -1,12 +1,15 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
+import 'package:stockez_app/keys/variables.dart';
 import 'package:stockez_app/screens/portfolio_page.dart';
 
 import 'home_page.dart';
 import 'records_page.dart';
 import 'search_page.dart';
+import '../keys/variables.dart';
 
 class YourAccountPage extends StatefulWidget {
   const YourAccountPage({super.key});
@@ -16,6 +19,10 @@ class YourAccountPage extends StatefulWidget {
 }
 
 class _YourAccountPageState extends State<YourAccountPage> {
+  final unameC = TextEditingController();
+  final emailC = TextEditingController();
+  final uidC = TextEditingController();
+
   final double _iconSize = 30;
   final double _heightNew = 10;
   final Color blueBg = Color.fromRGBO(69, 7, 132, 1);
@@ -24,6 +31,9 @@ class _YourAccountPageState extends State<YourAccountPage> {
   final Color goldAcc = Color.fromRGBO(255, 185, 2, 1);
   @override
   Widget build(BuildContext context) {
+    unameC.text = UInfo.userName!;
+    emailC.text = UInfo.email!;
+    uidC.text = UInfo.u_Id;
     return Scaffold(
       backgroundColor: blueBg,
       //BottomNavBar
@@ -82,10 +92,11 @@ class _YourAccountPageState extends State<YourAccountPage> {
           //   icon: Icon(Icons.star), //star==app logo
           // ),
           TextButton(
-            onPressed: () {
+            onPressed: () async {
+              await FirebaseAuth.instance.signOut();
               //Sign out code here
             },
-            child: Text(
+            child: const Text(
               "Sign Out",
               style: TextStyle(color: Colors.white),
             ),
@@ -99,7 +110,11 @@ class _YourAccountPageState extends State<YourAccountPage> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
               Container(
-                child: const Icon(Icons.account_circle, size: 90, color: Colors.amber,),
+                child: const Icon(
+                  Icons.account_circle,
+                  size: 90,
+                  color: Colors.amber,
+                ),
               ),
               Padding(
                 padding: EdgeInsets.fromLTRB(20, 10, 20, 0),
@@ -107,75 +122,97 @@ class _YourAccountPageState extends State<YourAccountPage> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: <Widget>[
                     TextFormField(
-                      style: TextStyle(color: Color.fromRGBO(255, 185, 2, 1),),
+                      controller: uidC,
+                      style: TextStyle(
+                        color: Color.fromRGBO(255, 185, 2, 1),
+                      ),
                       decoration: const InputDecoration(
                           contentPadding: EdgeInsets.symmetric(horizontal: 10),
                           labelText: "Username",
-                          labelStyle: TextStyle(color: Color.fromRGBO(255, 185, 2, 1),),
+                          labelStyle: TextStyle(
+                            color: Color.fromRGBO(255, 185, 2, 1),
+                          ),
                           fillColor: Colors.white,
                           focusedBorder: OutlineInputBorder(
-                              borderSide:
-                                  BorderSide(color: Color.fromRGBO(255, 185, 2, 1), width: 2.0))),
+                              borderSide: BorderSide(
+                                  color: Color.fromRGBO(255, 185, 2, 1),
+                                  width: 2.0))),
                     ),
                     SizedBox(
                       height: _heightNew,
                     ),
                     TextFormField(
-                      style: TextStyle(color: Color.fromRGBO(255, 185, 2, 1),),
+                      controller: unameC,
+                      style: TextStyle(
+                        color: Color.fromRGBO(255, 185, 2, 1),
+                      ),
                       decoration: const InputDecoration(
                           labelText: "Name",
-                          
-                          labelStyle: TextStyle(color: Color.fromRGBO(255, 185, 2, 1),),
+                          labelStyle: TextStyle(
+                            color: Color.fromRGBO(255, 185, 2, 1),
+                          ),
                           fillColor: Colors.white,
                           focusedBorder: OutlineInputBorder(
-                              borderSide:
-                                  BorderSide(color: Color.fromRGBO(255, 185, 2, 1), width: 2.0))),
+                              borderSide: BorderSide(
+                                  color: Color.fromRGBO(255, 185, 2, 1),
+                                  width: 2.0))),
                     ),
                     SizedBox(
                       height: _heightNew,
                     ),
-                    TextFormField(
-                      style: TextStyle(color: Color.fromRGBO(255, 185, 2, 1),),
-                      decoration: const InputDecoration(
-                          labelText: "Phone Number",
-                          labelStyle: TextStyle(color: Color.fromRGBO(255, 185, 2, 1),),
-                          fillColor: Colors.white,
-                          focusedBorder: OutlineInputBorder(
-                              borderSide:
-                                  BorderSide(color: Color.fromRGBO(255, 185, 2, 1), width: 2.0))),
-                    ),
+                    // TextFormField(
+                    //   style: TextStyle(
+                    //     color: Color.fromRGBO(255, 185, 2, 1),
+                    //   ),
+                    //   decoration: const InputDecoration(
+                    //       labelText: "Phone Number",
+                    //       labelStyle: TextStyle(
+                    //         color: Color.fromRGBO(255, 185, 2, 1),
+                    //       ),
+                    //       fillColor: Colors.white,
+                    //       focusedBorder: OutlineInputBorder(
+                    //           borderSide: BorderSide(
+                    //               color: Color.fromRGBO(255, 185, 2, 1),
+                    //               width: 2.0))),
+                    // ),
                     SizedBox(
                       height: _heightNew,
                     ),
                     TextFormField(
-                      style: TextStyle(color: Color.fromRGBO(255, 185, 2, 1),),
+                      controller: emailC,
+                      style: TextStyle(
+                        color: Color.fromRGBO(255, 185, 2, 1),
+                      ),
                       decoration: const InputDecoration(
                           labelText: "Email Id",
-                            labelStyle: TextStyle(color: Color.fromRGBO(255, 185, 2, 1),),
+                          labelStyle: TextStyle(
+                            color: Color.fromRGBO(255, 185, 2, 1),
+                          ),
                           fillColor: Colors.white,
                           focusedBorder: OutlineInputBorder(
-                              borderSide:
-                                  BorderSide(color: Color.fromRGBO(255, 185, 2, 1), width: 2.0))),
+                              borderSide: BorderSide(
+                                  color: Color.fromRGBO(255, 185, 2, 1),
+                                  width: 2.0))),
                     ),
-                    SizedBox(height: 20,),
+                    SizedBox(
+                      height: 20,
+                    ),
                     Container(
-                child: ElevatedButton(
-                  onPressed: () {},
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: goldAcc,
-                    padding: EdgeInsets.all(20),
-                  ),
-                  child: const Text(
-                    "SAVE",
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 20,
+                      child: ElevatedButton(
+                        onPressed: () {},
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: goldAcc,
+                          padding: EdgeInsets.all(20),
+                        ),
+                        child: const Text(
+                          "SAVE",
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 20,
+                          ),
+                        ),
+                      ),
                     ),
-                  ),
-                ),
-              ),
-
-                    
                   ],
                 ),
               ),
@@ -184,6 +221,5 @@ class _YourAccountPageState extends State<YourAccountPage> {
         ),
       ),
     );
-    
   }
 }
